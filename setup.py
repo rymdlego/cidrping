@@ -9,5 +9,5 @@ setup(
 	description = "A simple script for pinging hosts by CIDR-notation.",
 	keywords = "network ping cidr",
 	scripts=['cidrping'],
-	install_requires=['ipcalc']
+	install_requires=['ipcalc', 'six']
 )
