@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
 	name = "cidrping",
-	version = "0.2",
+	version = "0.3",
 	author = "Jakob Svanholm",
 	author_email = "jakob@rymdlego.se",
 	url = "https://github.com/rymdlego/cidrping",

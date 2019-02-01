@@ -2,11 +2,12 @@
 from threading import Thread
 from os import system
 from sys import argv
+from time import sleep
 from socket import inet_aton
 from ipcalc import Network
 
 def usage():
-	print("Usage: " + argv[0] + " <subnet> [-v]")
+	print("Usage: " + argv[0] + " <subnet> [-vi]")
 	exit(1)
 
 def ping_ip(host, dictionary):
@@ -18,9 +19,15 @@ def main():
 	# Check args.
 	if len(argv) < 2:
 		usage()
+
 	verbose = False
-	if len(argv) > 2 and argv[2] == "-v":
-		verbose = True
+	inverse = False
+
+	for arg in argv[2:]:
+		if "v" in arg:
+			verbose = True
+		if "i" in arg:
+			inverse = True
 
 	# Set up dictionary of IPs.
 	ip_table = {}
@@ -32,6 +39,9 @@ def main():
 		t = Thread(target=ping_ip, args=(key,ip_table))
 		t.start()
 
+	# Wait for threads to finish up.
+	sleep(3)
+
 	# Sort by IP using socket function inet_aton.
 	sorted_table = sorted(ip_table.items(), key=lambda item: inet_aton(item[0]))
 	
@@ -41,12 +51,12 @@ def main():
 				print(k[0] + " UP")
 			else:
 				print(k[0] + " DOWN")
+		elif inverse:
+			if not k[1]:
+				print(k[0])
 		else:
 			if k[1]:
 				print(k[0])
-		
-		#if k[1] == True:
-		#print(k[0])
 
 if __name__ == "__main__":
 	main()
